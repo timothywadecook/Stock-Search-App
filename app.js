@@ -20,11 +20,15 @@
 let stockList = [];
 let validationList =[];
 
-// Create validationList: array
+// Asynchronously create validationList: array
 $.ajax({
-    url: 
+    url: 'https://api.iextrading.com/1.0/ref-data/symbols',
     method: 'GET',
-}).then( function(response) { } )
+}).then( function(response) { 
+    response.forEach( function( object, i ) { 
+        validationList.push( object.symbol )
+    })
+} );
 
 
 // checkInput Definition
@@ -35,12 +39,28 @@ const checkInput = function(e) {
         const symbol = $('#stock-input').val().trim().toUpperCase(); // store input value and trim and uppercase it
         $('#stock-input').val() = ''; // reset input field to empty
         // check that symbol: string exists in the validation list 
-
-
-
+        if ( validationList.includes(symbol) ) {
+            updateStockList(symbol);
+        }
+        else { alert('Please enter a valid stock symbol' ) }
     }
 }
 
+// updateStockList Definition
+const updateStockList = function( symbol ) {
+    stockList.push( symbol );
+    renderStockButtons( stockList );
+}
+
+
+// renderStockButtons Definition
+const renderStockButtons = function ( stockList ) {
+    let tempDiv = $('<div>');
+    stockList.forEach( function(symbol, i) { 
+        let buttonHTML = 
+        tempDiv.append( buttonHTML );
+    })
+}
 
 
 // *** create a renderStockButtons(stockList: array) function
