@@ -76,16 +76,46 @@ const getStockInfo = function(e) {
         url: `https://api.iextrading.com/1.0/stock/${symbol}/batch?types=quote,news,logo`,
         method: 'GET',
     }).then( function(response) {
-        console.log( response.quote.symbol, response.quote.companyName, response.quote.latestPrice )
-        console.log( response.logo.url )
-        console.log( response.news[0].headline, response.news[0].url )
-    })
+        const stockInfo = {
+            'symbol': response.quote.symbol,
+            'companyName': response.quote.companyName, 
+            'latestPrice': response.quote.latestPrice,
+            'logoUrl': response.logo.url,
+            'newsArray': response.news,
+        };
+        console.log( stockInfo )
+        renderStockInfo( stockInfo );
+    });
 
 }
 
 
 // renderStockInfo() Definition
+const renderStockInfo = function( stockInfo ) {
+    const logoHTML = `<img src='${stockInfo.logoUrl}'>`;
+    const companyNameHTML = `<h1>${stockInfo.companyName}</h1>`;
+    const latestPriceHTML = `<h3>$${stockInfo.latestPrice}</h3>`;
+    const symbolHTML = `<h3>${stockInfo.symbol}</h3>`;
+    const newsHTML = makeNewsHTML( stockInfo.newsArray );
+    $('#resultsContent').append(logoHTML + companyNameHTML + '<br>' + symbolHTML + latestPriceHTML + '<br>' + newsHTML);
+    console.log('renderStockInfo ran')
+};
 
+
+// makeNewsHTML()  Definition
+const makeNewsHTML = function( newsArray ) {
+    const tempDiv = $("<div>");
+    newsArray.forEach( function( article, i ) {
+        const imgHTML = `<img src='${article.image}'>`;
+        const headlineHTML = `<h4>${article.headline}</h4>`;
+        const urlHTML = `<a href='${article.url}'>Read More</a>`;
+        console.log(' article.datetime = ', article.datetime)
+        const dateHTML = `<h2>${article.datetime.slice(article.datetime.indexOf(':'))}</h2>`; // we only want the date
+        tempDiv.append(imgHTML + headlineHTML + '<br>' + dateHTML + urlHTML + '<hr>')
+    }) 
+    console.log(tempDiv)
+    return tempDiv;
+}
 
 
 // add dynamic event listener once to #buttonList, and filter for class .stockBtns
