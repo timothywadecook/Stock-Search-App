@@ -92,27 +92,28 @@ const getStockInfo = function(e) {
 
 // renderStockInfo() Definition
 const renderStockInfo = function( stockInfo ) {
-    const logoHTML = `<img src='${stockInfo.logoUrl}'>`;
-    const companyNameHTML = `<h1>${stockInfo.companyName}</h1>`;
-    const latestPriceHTML = `<h3>$${stockInfo.latestPrice}</h3>`;
-    const symbolHTML = `<h3>${stockInfo.symbol}</h3>`;
+    const logoHTML = `<img class='card-img-top' src='${stockInfo.logoUrl}'>`;
+    const companyNameHTML = `<h2 class='card-title'>${stockInfo.companyName}</h2>`;
+    const latestPriceHTML = `<h3 class='card-text'>Latest Price: $${stockInfo.latestPrice}</h3>`;
+    const symbolHTML = `<h3 class='card-text' >Symbol: ${stockInfo.symbol}</h3>`;
     const newsHTML = makeNewsHTML( stockInfo.newsArray );
-    $('#resultsContent').append(logoHTML + companyNameHTML + '<br>' + symbolHTML + latestPriceHTML + '<br>' + newsHTML);
+    $('#resultsContent').empty();
+    $('#resultsContent').append('<div class="card shadow">' + logoHTML + '<div class="card-body"' + '<br>' + companyNameHTML + '<br>' + symbolHTML + latestPriceHTML + '</div> </div>' + '<br>' + newsHTML);
     console.log('renderStockInfo ran')
 };
 
 
 // makeNewsHTML()  Definition
 const makeNewsHTML = function( newsArray ) {
-    const tempDiv = $("<div>");
+    let tempDiv = "<div>";
     newsArray.forEach( function( article, i ) {
-        const imgHTML = `<img src='${article.image}'>`;
-        const headlineHTML = `<h4>${article.headline}</h4>`;
-        const urlHTML = `<a href='${article.url}'>Read More</a>`;
-        console.log(' article.datetime = ', article.datetime)
-        const dateHTML = `<h2>${article.datetime.slice(article.datetime.indexOf(':'))}</h2>`; // we only want the date
-        tempDiv.append(imgHTML + headlineHTML + '<br>' + dateHTML + urlHTML + '<hr>')
+        // const imgHTML = `<img class="float-left" src='${article.image}'>`; Apparently we don't have access to these images
+        const headlineHTML = `<h5 class='card-title'>${article.headline}</h5>`;
+        const urlHTML = `<a class='btn btn-primary' href='${article.url}'>Read More</a>`;
+        const dateHTML = `<p class='card-text'>${article.datetime.slice(0, article.datetime.indexOf('T'))}</p>`; // we only want the date
+        tempDiv += '<div class="shadow card">' + '<div class="card-body">' + headlineHTML + dateHTML + urlHTML + '</div> </div> <hr>';
     }) 
+    tempDiv += '</div>'
     console.log(tempDiv)
     return tempDiv;
 }
