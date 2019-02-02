@@ -89,17 +89,15 @@ const getStockInfo = function(e) {
 
 }
 
-
 // renderStockInfo() Definition
 const renderStockInfo = function( stockInfo ) {
-    const logoHTML = `<img class='card-img-top' src='${stockInfo.logoUrl}'>`;
+    const logoHTML = `<img src='${stockInfo.logoUrl}' alt="stock logo">`;
     const companyNameHTML = `<h2 class='card-title'>${stockInfo.companyName}</h2>`;
     const latestPriceHTML = `<h3 class='card-text'>Latest Price: $${stockInfo.latestPrice}</h3>`;
     const symbolHTML = `<h3 class='card-text' >Symbol: ${stockInfo.symbol}</h3>`;
     const newsHTML = makeNewsHTML( stockInfo.newsArray );
     $('#resultsContent').empty();
-    $('#resultsContent').append('<div class="card shadow">' + logoHTML + '<div class="card-body"' + '<br>' + companyNameHTML + '<br>' + symbolHTML + latestPriceHTML + '</div> </div>' + '<br>' + newsHTML);
-    console.log('renderStockInfo ran')
+    $('#resultsContent').append('<div class="card shadow">'  + '<div class="card-body">' + logoHTML + '<br><hr>' + companyNameHTML + '<br>' + symbolHTML + latestPriceHTML + '</div> </div>' + '<br>' + newsHTML);
 };
 
 
@@ -107,7 +105,6 @@ const renderStockInfo = function( stockInfo ) {
 const makeNewsHTML = function( newsArray ) {
     let tempDiv = "<div>";
     newsArray.forEach( function( article, i ) {
-        // const imgHTML = `<img class="float-left" src='${article.image}'>`; Apparently we don't have access to these images
         const headlineHTML = `<h5 class='card-title'>${article.headline}</h5>`;
         const urlHTML = `<a target="_blank" class='btn btn-primary' href='${article.url}'>Read More</a>`;
         const dateHTML = `<p class='card-text'>${article.datetime.slice(0, article.datetime.indexOf('T'))}</p>`; // we only want the date
