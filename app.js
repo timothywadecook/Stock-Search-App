@@ -109,7 +109,7 @@ const makeNewsHTML = function( newsArray ) {
     newsArray.forEach( function( article, i ) {
         // const imgHTML = `<img class="float-left" src='${article.image}'>`; Apparently we don't have access to these images
         const headlineHTML = `<h5 class='card-title'>${article.headline}</h5>`;
-        const urlHTML = `<a class='btn btn-primary' href='${article.url}'>Read More</a>`;
+        const urlHTML = `<a target="_blank" class='btn btn-primary' href='${article.url}'>Read More</a>`;
         const dateHTML = `<p class='card-text'>${article.datetime.slice(0, article.datetime.indexOf('T'))}</p>`; // we only want the date
         tempDiv += '<div class="shadow card">' + '<div class="card-body">' + headlineHTML + dateHTML + urlHTML + '</div> </div> <hr>';
     }) 
